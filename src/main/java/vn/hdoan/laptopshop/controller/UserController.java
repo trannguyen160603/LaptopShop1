@@ -71,8 +71,24 @@ public class UserController {
             currentUser.setFullName(user.getFullName());
             currentUser.setPhone(user.getPhone());
 
-            this.userService.handleSaveUser(user);
+            // bug here
+            this.userService.handleSaveUser(currentUser);
         }
+        return "redirect:/admin/user";
+    }
+
+    @GetMapping("/admin/user/delete/{id}")
+    public String getDeleteUserPage(Model model, @PathVariable long id){
+        model.addAttribute("id", id);
+//        User user = new User();
+//        user.setId(id);
+        model.addAttribute("newUser", new User());
+        return "admin/user/delete";
+    }
+
+    @PostMapping("/admin/user/delete")
+    public String postDeleteUser(Model model, @ModelAttribute("newUser") User user){
+        this.userService.deleteAuser(user.getId());
         return "redirect:/admin/user";
     }
 }
