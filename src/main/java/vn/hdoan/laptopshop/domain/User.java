@@ -1,8 +1,12 @@
 package vn.hdoan.laptopshop.domain;
 
 import jakarta.persistence.*;
+import org.aspectj.weaver.ast.Or;
+
+import java.util.List;
 
 @Entity
+@Table(name = "users")
 public class User {
 
     @Id
@@ -17,6 +21,13 @@ public class User {
     private String avatar;
 
     //roleId
+    // User many -> to one -> role
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
 
     public void setId(long id) {
         this.id = id;
