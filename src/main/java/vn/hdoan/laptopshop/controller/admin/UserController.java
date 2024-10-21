@@ -1,11 +1,17 @@
 package vn.hdoan.laptopshop.controller.admin;
 
+import jakarta.servlet.ServletContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import vn.hdoan.laptopshop.domain.User;
 import vn.hdoan.laptopshop.service.UserService;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -14,8 +20,11 @@ public class UserController {
     // DI: dependency injection
     private final UserService userService;
 
-    public UserController(UserService userService) {
+    private final ServletContext servletContext;
+
+    public UserController(UserService userService, ServletContext servletContext) {
         this.userService = userService;
+        this.servletContext = servletContext;
     }
 
     @RequestMapping("/")
@@ -44,15 +53,33 @@ public class UserController {
         return "admin/user/detail";
     }
 
-    @RequestMapping(value = "/admin/user/create") //GET
+    @GetMapping(value = "/admin/user/create") //GET
     public String getCreateUserPage(Model model) {
         model.addAttribute("newUser", new User());
         return "admin/user/create";
     }
 
-    @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
-    public String createUserPage(Model model, @ModelAttribute("newUser") User user) {
-        this.userService.handleSaveUser(user);
+    @PostMapping(value = "/admin/user/create")
+    public String createUserPage(Model model, @ModelAttribute("newUser") User user,
+        @RequestParam("usersFile") MultipartFile file) {
+//        this.userService.handleSaveUser(user);
+        try {
+            byte[] bytes = file.getBytes();
+
+            String rootPath = this.servletContext.getRealPath("/resources/images");
+            File dir = new File(rootPath + File.separator + "avatar");
+            if (!dir.exists())
+                dir.mkdirs();
+            //  Create the file on server
+            File serverFile = new File(dir.getAbsolutePath() + File.separator +
+                    +System.currentTimeMillis() + "-" + file.getOriginalFilename());
+            BufferedOutputStream stream = new BufferedOutputStream(
+                    new FileOutputStream(serverFile));
+            stream.write(bytes);
+            stream.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return "redirect:/admin/user";
     }
 
