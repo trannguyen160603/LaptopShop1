@@ -31,6 +31,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-webapp/resources/client
-webapp/resources/css
