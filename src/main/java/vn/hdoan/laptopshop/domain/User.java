@@ -16,15 +16,14 @@ public class User {
     @NotNull
     @Email(message = "Email is not valid", regexp =
             "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
-    @NotEmpty(message = "Email cannot be empty")
     private String email;
 
     @NotNull
-    @Min(2)
+    @Size(min = 2, message = "Password must have at least 2 characters")
     private String password;
 
     @NotNull
-    @Min(2)
+    @Size(min = 3, message = "Password must have at least 3 characters")
     private String fullName;
     private String address;
     private String phone;
