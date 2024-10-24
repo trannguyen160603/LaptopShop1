@@ -1,6 +1,10 @@
 package vn.hdoan.laptopshop.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -12,11 +16,25 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotNull()
+    @NotEmpty(message = "product name cannot be blank")
     private String name;
+
+    @NotNull
+    @DecimalMin(value = "0", inclusive = false, message = "price must be greater than 0")
     private double price;
     private String image;
+
+    @NotNull
+    @NotEmpty(message = "detailDesc cannot be blank")
     private String detailDesc;
+
+    @NotNull
+    @NotEmpty(message = "shortDesc cannot be blank")
     private String shortDesc;
+
+    @NotNull
+    @Min(value = 1, message = "quantity must be greater than or equal to 1")
     private long quantity;
     private long sold;
     private String factory;
