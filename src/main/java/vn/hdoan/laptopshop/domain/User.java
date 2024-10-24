@@ -1,10 +1,7 @@
 package vn.hdoan.laptopshop.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.util.List;
 
@@ -17,7 +14,9 @@ public class User {
     private long id;
 
     @NotNull
-    @Email
+    @Email(message = "Email is not valid", regexp =
+            "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
+    @NotEmpty(message = "Email cannot be empty")
     private String email;
 
     @NotNull
