@@ -13,8 +13,8 @@
             </button>
             <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                 <div class="navbar-nav mx-auto">
-                    <a href="/" class="nav-item nav-link active">Trang Chủ</a>
-                    <a href="/products" class="nav-item nav-link">Sản Phẩm</a>
+                    <a href="/" class="nav-item nav-link active">Home</a>
+                    <a href="/products" class="nav-item nav-link">Products</a>
 
                 </div>
                 <div class="d-flex m-3 me-0">
