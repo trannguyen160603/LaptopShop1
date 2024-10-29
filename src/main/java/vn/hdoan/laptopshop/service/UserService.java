@@ -3,6 +3,7 @@ package vn.hdoan.laptopshop.service;
 import org.springframework.stereotype.Service;
 import vn.hdoan.laptopshop.domain.Role;
 import vn.hdoan.laptopshop.domain.User;
+import vn.hdoan.laptopshop.domain.dto.RegisterDTO;
 import vn.hdoan.laptopshop.repository.RoleRepository;
 import vn.hdoan.laptopshop.repository.UserRepository;
 
@@ -48,4 +49,13 @@ public class UserService {
     public Role getRoleByName(String name) {
         return this.roleRepository.findByName(name);
     }
+
+    public User registerDTOtoUser(RegisterDTO registerDTO){
+        User user = new User();
+        user.setFullName(registerDTO.getFirstName() + " " + registerDTO.getLastName());
+        user.setEmail(registerDTO.getEmail());
+        user.setPassword(registerDTO.getPassword());
+        return user;
+    }
+
 }
