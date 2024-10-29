@@ -1,14 +1,21 @@
 package vn.hdoan.laptopshop.domain.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 import vn.hdoan.laptopshop.service.validator.RegisterChecked;
 
 @RegisterChecked
 public class RegisterDTO {
 
+    @Size(min = 3, message = "FirstName must have at least 3 characters")
     private  String firstName;
     private String lastName;
+
+    @Email(message = "Invalid email", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     private String email;
     private String password;
+
+    @Size(min = 3, message = "confirmPassword must have at least 3 characters")
     private String confirmPassword;
 
     public String getFirstName() {
