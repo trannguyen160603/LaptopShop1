@@ -1,5 +1,8 @@
 package vn.hdoan.laptopshop.domain.dto;
 
+import vn.hdoan.laptopshop.service.validator.RegisterChecked;
+
+@RegisterChecked
 public class RegisterDTO {
 
     private  String firstName;
