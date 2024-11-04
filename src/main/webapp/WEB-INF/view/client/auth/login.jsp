@@ -26,6 +26,11 @@
                                 <c:if test="${param.error != null}">
                                     <div class="my-2" style="color: red;">Invalid email or password.</div>
                                 </c:if>
+
+                                <c:if test="${param.logout != null}">
+                                    <div class="my-2" style="color: green;">Logout success.</div>
+                                </c:if>
+
                                 <form method="post" action="/login">
                                     <div class="form-floating mb-3">
                                         <input class="form-control" type="email" placeholder="name@example.com"
