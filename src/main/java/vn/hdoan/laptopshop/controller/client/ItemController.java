@@ -13,6 +13,7 @@ import vn.hdoan.laptopshop.domain.Product;
 import vn.hdoan.laptopshop.domain.User;
 import vn.hdoan.laptopshop.service.ProductService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -50,7 +51,7 @@ public class ItemController {
 
         Cart cart = this.productService.fetchByUser(currentUser);
 
-        List<CartDetail> cartDetails = cart.getCartDetails();
+        List<CartDetail> cartDetails = cart == null ? new ArrayList<CartDetail>() : cart.getCartDetails();
 
         double totalPrice = 0;
         for (CartDetail cd: cartDetails){
