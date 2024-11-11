@@ -1,5 +1,7 @@
 package vn.hdoan.laptopshop.controller.client;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -9,9 +11,11 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import vn.hdoan.laptopshop.domain.Order;
 import vn.hdoan.laptopshop.domain.Product;
 import vn.hdoan.laptopshop.domain.User;
 import vn.hdoan.laptopshop.domain.dto.RegisterDTO;
+import vn.hdoan.laptopshop.service.OrderService;
 import vn.hdoan.laptopshop.service.ProductService;
 import vn.hdoan.laptopshop.service.UserService;
 
@@ -24,11 +28,14 @@ public class HomePageController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
+    private final OrderService orderService;
+
     public HomePageController(ProductService productService, UserService userService,
-                              PasswordEncoder passwordEncoder){
+                              PasswordEncoder passwordEncoder, OrderService orderService){
         this.productService = productService;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.orderService = orderService;
     }
 
     @GetMapping("/")
@@ -72,5 +79,20 @@ public class HomePageController {
     public String getDenyPage(Model model){
         return "client/auth/deny";
     }
+
+    @GetMapping("/order-history")
+    public String getOrderHistoryPage(Model model, HttpServletRequest request) {
+        User currentUser = new User();// null
+        HttpSession session = request.getSession(false);
+        long id = (long) session.getAttribute("id");
+        currentUser.setId(id);
+
+        List<Order> orders = this.orderService.fetchOrderByUser(currentUser);
+        model.addAttribute("orders", orders);
+
+        return "client/cart/order-history";
+    }
+
+
 }
 

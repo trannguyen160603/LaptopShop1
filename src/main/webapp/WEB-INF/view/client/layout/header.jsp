@@ -42,7 +42,7 @@
                                     </div>
                                 </li>
                                 <li><a class="dropdown-item" href="#">Account management</a></li>
-                                <li><a class="dropdown-item" href="#">Order history</a></li>
+                                <li><a class="dropdown-item" href="/order-history">Order history</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>

@@ -3,6 +3,7 @@ package vn.hdoan.laptopshop.service;
 import org.springframework.stereotype.Service;
 import vn.hdoan.laptopshop.domain.Order;
 import vn.hdoan.laptopshop.domain.OrderDetail;
+import vn.hdoan.laptopshop.domain.User;
 import vn.hdoan.laptopshop.repository.OrderDetailRepository;
 import vn.hdoan.laptopshop.repository.OrderRepository;
 
@@ -52,5 +53,8 @@ public class OrderService {
         }
     }
 
+    public List<Order> fetchOrderByUser(User user) {
+        return this.orderRepository.findByUser(user);
+    }
 
 }
