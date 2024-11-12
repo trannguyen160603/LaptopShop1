@@ -1,6 +1,9 @@
 package vn.hdoan.laptopshop.controller.admin;
 
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -9,11 +12,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import vn.hdoan.laptopshop.domain.Product;
 import vn.hdoan.laptopshop.domain.User;
 import vn.hdoan.laptopshop.service.UploadService;
 import vn.hdoan.laptopshop.service.UserService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class UserController {
@@ -41,10 +46,30 @@ public class UserController {
     }
 
     @RequestMapping("/admin/user")
-    public String getUserPage(Model model) {
-        List<User> users = this.userService.getAllUsers();
-        System.out.println(">>>> check users: " + users);
-        model.addAttribute("users1", users);
+    public String getUserPage(Model model,
+                              @RequestParam("page") Optional<String> pageOptional) {
+        // client: page = 1, limit = 10
+        // database: offset + limit
+        int page = 1;
+        try {
+            if(pageOptional.isPresent()){
+                // convert from String to int
+                page = Integer.parseInt(pageOptional.get());
+            }else{
+                // page = 1
+            }
+        } catch (Exception e){
+            // page = 1
+//             TODO: handle Exception
+        }
+
+        Pageable pageable = PageRequest.of(page - 1, 2);
+        Page<User> user = this.userService.getAllUsers(pageable);
+        List<User> listUser = user.getContent();
+        model.addAttribute("users1", listUser);
+
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", user.getTotalPages());
         return "admin/user/show";
     }
 

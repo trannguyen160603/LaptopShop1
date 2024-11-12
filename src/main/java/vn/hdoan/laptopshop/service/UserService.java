@@ -1,5 +1,7 @@
 package vn.hdoan.laptopshop.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import vn.hdoan.laptopshop.domain.Role;
 import vn.hdoan.laptopshop.domain.User;
@@ -31,8 +33,8 @@ public class UserService {
         return "Hello from service";
     }
 
-    public List<User> getAllUsers(){
-        return this.userRepository.findAll();
+    public Page<User> getAllUsers(Pageable pageable){
+        return this.userRepository.findAll(pageable);
     }
 
     public List<User> getAllUsersByEmail(String email){
